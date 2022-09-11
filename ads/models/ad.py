@@ -1,7 +1,7 @@
 from django.db import models
 
 from ads.models.category import Category
-from users.models import User
+from authentication.models import User
 
 
 class Ad(models.Model):

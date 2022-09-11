@@ -1,7 +1,7 @@
 # Доработать
 from rest_framework import serializers
 from ads.models.location import Location
-from users.models import User
+from authentication.models import User
 
 
 class UserListSerializer(serializers.ModelSerializer):

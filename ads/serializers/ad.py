@@ -3,7 +3,7 @@ from rest_framework import serializers
 
 from ads.models.ad import Ad
 from ads.models.category import Category
-from users.models import User
+from authentication.models import User
 
 
 class AdSerializer(serializers.ModelSerializer):
@@ -26,21 +26,11 @@ class AdCreateSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def is_valid(self, raise_exception=False):
-        self._author = self.initial_data.pop('author')
-        self._category = self.initial_data.pop('category')
+        self._author = self.initial_data.pop('author', [])
+        self._category = self.initial_data.pop('category', [])
         # self._author_id = self.initial_data.pop('author_id')
         # self._category_id = self.initial_data.pop('category_id')
         return super().is_valid(raise_exception=raise_exception)
-
-    # def create(self, validated_data):
-    #     ad = Ad.objects.create(**validated_data)
-    #     for author in self._author:
-    #         author_obj, _ = author.objects.get_or_create(name=author)
-    #         ad.author.add(author_obj)
-    #
-    #     for category in self._category:
-    #         category_obj, _ = category.objects.get_or_create(name=category)
-    #         ad.category.add(category_obj)
 
     def create(self, validated_data):
         ad = Ad.objects.create(name=validated_data.get('name'), price=validated_data.get('price'),
@@ -67,8 +57,7 @@ class AdUpdateSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def is_valid(self, raise_exception=False):
-        self._category = self.initial_data.pop('category')
-        # self._category_id = self.initial_data.pop('category_id')
+        self._category = self.initial_data.pop('category', [])
         return super().is_valid(raise_exception=raise_exception)
 
     def save(self):
