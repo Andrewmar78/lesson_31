@@ -5,10 +5,11 @@ from authentication.models import User
 
 
 class Ad(models.Model):
-    name = models.CharField(max_length=100)
+    # Added
+    name = models.CharField(min_length=10, max_length=100)
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    price = models.PositiveIntegerField(default=0)
-    description = models.TextField(max_length=2000)
+    price = models.PositiveIntegerField(min_value=0, default=0)
+    description = models.TextField(max_length=2000, null=True)
     is_published = models.BooleanField(default=None)
     image = models.ImageField(upload_to='images/')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
