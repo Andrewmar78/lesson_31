@@ -6,10 +6,9 @@ from authentication.models import User
 
 
 class Ad(models.Model):
-    # Added
     name = models.CharField(
         max_length=100,
-        validators=[MinLengthValidator(10, 'the field must contain at least 10 characters')]
+        validators=[MinLengthValidator(10, 'The field must contain at least 10 characters')]
     )
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     price = models.PositiveSmallIntegerField(default=0)

@@ -8,7 +8,7 @@ class Category(models.Model):
         max_length=10,
         null=True,
         unique=True,
-        validators=[MinLengthValidator(5, 'the field must contain at least 5 characters')],
+        validators=[MinLengthValidator(5, 'The field must contain at least 5 characters')],
     )
 
     class Meta:
