@@ -1,11 +1,15 @@
+from django.core.validators import MinLengthValidator
 from django.db import models
 
 
 class Category(models.Model):
     name = models.CharField(max_length=20)
-    # Added
-    slug = models.CharField(min_length=5, max_length=10, unique=True)
-
+    slug = models.SlugField(
+        max_length=10,
+        null=True,
+        unique=True,
+        validators=[MinLengthValidator(5, 'the field must contain at least 5 characters')],
+    )
 
     class Meta:
         verbose_name = 'Категория'

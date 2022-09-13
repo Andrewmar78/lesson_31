@@ -1,15 +1,28 @@
 from datetime import date, timedelta
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from rest_framework.exceptions import ValidationError
+from django.core.validators import EmailValidator
+
 from ads.models.location import Location
-from authentication.constants import min_age
+from authentication.constants import min_age, not_allowed_domains
 
 
 def check_min_age(birth_date: date):
     if (date.today() - birth_date) < timedelta(days=min_age * 365):
         raise ValidationError(
-            f"{value} - person is too yang."
+            f"{birth_date} - person is too young."
         )
+
+
+def check_email(email):
+    domain = email.split('@')[1]
+    if domain in not_allowed_domains:
+        raise ValidationError(
+            f"{domain} is not allowed."
+        )
+
+    # validator = EmailValidator(message="Enter a valid email address", allowlist=[allowed_domains])
 
 
 class User(AbstractUser):
@@ -31,7 +44,7 @@ class User(AbstractUser):
     age = models.PositiveSmallIntegerField()
     locations = models.ManyToManyField(Location, related_name="user")
     birth_date = models.DateField(null=True, validators=[check_min_age])
-    email = models.EmailField(null=True, unique=True)
+    email = models.EmailField(null=True, unique=True, validators=[check_email])
 
     def __str__(self):
         return self.username
