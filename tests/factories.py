@@ -1,5 +1,5 @@
 import factory.django
-
+from pytest_factoryboy import register
 from ads.models.ad import Ad
 from ads.models.category import Category
 from authentication.models import User
@@ -29,3 +29,8 @@ class AdFactory(factory.django.DjangoModelFactory):
     is_published = False
     author = factory.SubFactory(UserFactory)
     category = factory.SubFactory(CategoryFactory)
+
+
+register(AdFactory)
+register(CategoryFactory)
+register(UserFactory)
