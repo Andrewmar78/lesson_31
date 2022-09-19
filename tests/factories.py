@@ -17,7 +17,7 @@ class CategoryFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Category
 
-    name = factory.Faker('category_name')
+    name = factory.Faker('name')
 
 
 class AdFactory(factory.django.DjangoModelFactory):
